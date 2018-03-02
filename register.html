@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="okta-login-container"></div>
+</body>
+<script type="text/javascript" src="//s3-us-west-1.amazonaws.com/eng-up-public/okta-signin-widget/2.4.0/js/okta-sign-in.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//s3-us-west-1.amazonaws.com/eng-up-public/okta-signin-widget/2.4.0/css/okta-sign-in.min.css">
+<!-- Customizable css theme options. Link your own stylesheet or override styles inline. -->
+<link rel="stylesheet" type="text/css" href="//s3-us-west-1.amazonaws.com/eng-up-public/okta-signin-widget/2.4.0/css/okta-theme.css">
+
+<link type="text/css" rel="stylesheet" href="/css/bootstrap.css" />
+<link type="text/css" rel="stylesheet" href="/css/main.css" />
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script type="text/javascript">
+    var oktaSignIn = new OktaSignIn({
+        clientId: '0oarqitopjpUIRslr2p6',
+        baseUrl: 'https://customemaildomain.okta.com',
+        authScheme: 'SESSION',
+        /* See also: https://github.com/okta/okta-signin-widget#registration */
+        registration: {
+            parseSchema: function(schema, onSuccess, onFailure) {
+                // handle parseSchema callback
+                onSuccess(schema);
+            },
+            preSubmit: function (postData, onSuccess, onFailure) {
+                // handle preSubmit callback
+                onSuccess(postData);
+            },
+            postSubmit: function (response, onSuccess, onFailure) {
+                // handle postsubmit callback
+                onSuccess(response);
+            }
+        },
+        features: {
+            router: true,
+            registration: true,
+            securityImage: false,
+            autoPush: true
+        },
+        /* See also: https://developer.okta.com/code/javascript/okta_sign-in_widget.html#customization */
+        labels: {
+            'primaryauth.title': 'Example Okta Widget'
+        },
+        language: "en"
+    });
+    oktaSignIn.renderEl(
+            { el: '#okta-login-container' },
+            function(res) {
+                if (res.status === 'SUCCESS') {
+                    res.session.setCookieAndRedirect('https://customemaildomain.okta.com');
+                }
+            }
+    );
+</script>
+</html>
